@@ -1,0 +1,39 @@
+{% extends 'root.html' %}
+{% load static %}
+{% block ext_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'order/order_not_pay.css' %}">
+{% endblock %}
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'order/js/order_not_pay.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div id="order_not_pay" class="container">
+        {% if orders.exists %}
+            <ol>
+            {% for order in orders %}
+                <li>
+                    <ul class="order" orderid="{{ order.id }}">
+                        <h6>订单编号:{{ order.id }}</h6>
+                        {% for order_goods in order.order_goods_set.all %}
+                            <li class="menuList">
+                                <a href="#">
+                                    <img src="{{ order_goods.goods.productimg }}" alt="{{ order_goods.goods.productlongname }}">
+                                    <p>{{ order_goods.goods.productlongname }}</p>
+                                    <p class="presentPrice">{{ order_goods.goods.price }}</p>
+                                </a>
+                                <section>
+                                    <span>{{ order_goods.num }}</span>
+                                </section>
+                            </li>
+                        {% endfor %}
+                        
+                    </ul>
+                </li>            
+            {% endfor %}
+            
+            </ol>
+        {% endif %} 
+    </div>
+{% endblock %}

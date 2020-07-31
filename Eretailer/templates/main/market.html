@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block ext_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'main/market/market.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="market">
+        <aside>
+            <ul>
+                {% for food_type in food_types %}
+                    <li>
+                        <a href="{% url 'App:marketwithP' typeid=food_type.typeid childid=0 order=0 %}">{{ food_type.typename }}</a>
+                        {% ifequal food_type.typeid this_typeid %}
+                            <span class="yellowSlide"></span>
+                        {% endifequal %}
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </aside>
+        <section>
+            <nav>
+                <ul>
+                    <li id="all_types"><span>{{ type_menu_name }}<span id="all_type_logo" class="glyphicon glyphicon-chevron-down"></span></span></li>
+                    <li id="sort_rule"><span>{{ sort_menu_name }}<span id="sort_rule_logo" class="glyphicon glyphicon-chevron-down"></span></span></li>
+                </ul>
+            </nav>
+            <menu>
+                <ul>
+                    {% for good in goods %}
+                        <li>
+                            <a href="#">
+                                <img src="{{ good.productimg }}" alt="{{ good.productlongname }}">
+                                <div class="shoppingInfo">
+                                    <h6>{{ good.productlongname }}</h6>
+                                    <p class="detailTag">
+                                        <span>精选</span>
+                                        <span></span>
+                                    </p>
+                                    <p class="unit">{{ good.specifics }}</p>
+                                    <p class="price">
+                                        <span>{{ good.price }}</span>
+                                        <s>{{ good.marketprice }}</s>
+                                    </p>
+                                </div>
+                            </a>
+                        <section>
+                            <button goodid="{{ good.id }}" class="subShopping">－</button>
+                            <span>0</span>
+                            <button goodid="{{ good.id }}" class="addShopping">＋</button>
+                        </section>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div id="all_types_container">
+                    <div>
+                        {% for food_type_childnames in food_type_childnames_list %}
+                            <a href="{% url 'App:marketwithP' typeid=this_typeid childid=food_type_childnames.0 order=0 %}">
+                                {% ifequal food_type_childnames.0 this_childid %}
+                                    <span style="color: #ec971f">{{ food_type_childnames.1 }}</span>
+                                {% else %}
+                                    <span>{{ food_type_childnames.1 }}</span>
+                                {% endifequal %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="sort_container">
+                    <div>
+                        <a href="#">
+                            {% for order in order_list %}
+                                <a href="{% url 'App:marketwithP' typeid=this_typeid childid=this_childid order=order.0 %}">
+                                    {% ifequal order.0 this_order %}
+                                        <span style="color: #ec971f">{{ order.1 }}</span>
+                                    {% else %}
+                                        <span>{{ order.1 }}</span>
+                                    {% endifequal %}
+                                </a>
+                            {% endfor %}
+                            
+                        </a>
+                    </div>
+                </div>
+            </menu>
+        </section>
+    </div>
+{% endblock %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'main/market/js/market.js' %}"></script>
+{% endblock %}

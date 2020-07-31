@@ -1,0 +1,41 @@
+{% extends 'root.html' %}
+{% load static %}
+{% block ext_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'order/order.css' %}">
+{% endblock %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'order/js/order.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    <header></header>
+{% endblock %}
+
+{% block content %}
+    <div id="order" class="container">
+
+        <h3>订单编号:{{ order.id }}</h3>
+        <ul>
+            {% for order_goods in order.order_goods_set.all %}
+                <li class="menuList">
+
+                    <a href="#">
+                        <img src="{{ order_goods.goods.productimg }}" alt="{{ order_goods.goods.productlongname }}">
+                        <p>{{ order_goods.goods.productlongname }}</p>
+                        <p class="presentPrice">{{ order_goods.goods.price }}</p>
+                    </a>
+                    <section>
+                        <span>{{ order_goods.num }}</span>
+                    </section>
+                </li>
+            {% endfor %}
+
+        </ul>
+        <h3 id="total">总价:{{ order.total }}</h3>
+        <button id="pay" class="btn btn-success btn-block" orderid="{{ order.id }}">支付</button>
+        <button id="cancel" class="btn btn-danger btn-block">取消</button>
+    </div>
+{% endblock %}

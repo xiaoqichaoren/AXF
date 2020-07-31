@@ -1,0 +1,16 @@
+div{
+
+    font-size: 0.4rem;
+
+}
+
+header{
+    height: 1.5rem;
+    background: orange;
+    margin-bottom: 0.3rem;
+}
+
+div input{
+    font-size: 0.4rem !important;
+    height: 1rem !important;
+}

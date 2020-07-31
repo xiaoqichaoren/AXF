@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block ext_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'main/cart/cart.css' %}">
+{% endblock %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'main/cart/js/cart.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <div id="cart">
+            <h3>购物车</h3>
+            <div class="full">
+                <section>
+                    <ul>
+                        <li>收货人:{{ carts.0.user.username }}</li>
+                        <li>电话:</li>
+                        <li>地址:</li>
+                    </ul>
+
+                    <div class="bill">
+                        <p>闪送超市</p>
+                        <p>0元起送，满30免运费，22:00前可送达</p>
+                        <a href="#">凑单专区</a>
+
+                    </div>
+
+                    <div class="delivery">
+                        <span>收货时间</span>
+                        <span>一小时之内送达</span>
+                        <a href="#">可预订</a>
+                    </div>
+                    
+                    <ul>
+                        {% for cart in carts %}
+                            <li class="menuList" cartid = "{{ cart.id }}">
+                                <div class="confirm">
+                                    <span>
+                                        {% if cart.is_select %}
+                                            <span>√</span>
+                                        {% else %}
+                                            <span></span>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <a href="#">
+                                    <img src="{{ cart.goods.productimg }}" alt="{{ cart.goods.productlongname }}">
+                                    <p>{{ cart.goods.productlongname }}</p>
+                                    <p class="presentPrice">{{ cart.goods.price }}</p>
+                                </a>
+                                <section>
+                                    <button class="subShopping">-</button>
+                                    <span>{{ cart.goods_num }}</span>
+                                    <button class="addShopping">+</button>
+                                </section>
+                            </li>                        
+                        {% endfor %}
+                        
+                    </ul>
+
+                    <div class="payTheBill">
+                        <div class="all_select">
+                            <span>
+                                {% if is_all_select %}
+                                    <span>√</span>
+                                {% else %}
+                                    <span></span>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <p>
+                            <span>全选</span>
+                            <span>共计:</span>
+                            <span id="total_price">{{ total_price }}</span>
+                        </p>
+                        <span id="generate_order">下单</span>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'user/base_user.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" action="{% url 'App:login' %}" onsubmit="return login_check()">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input name="username" type="text" class="form-control" id="username" placeholder="请输入用户名">
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input name="password" type="password" class="form-control" id="password" placeholder="请输入密码">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">登录</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'user/js/login.js' %}"></script>
+{% endblock %}
